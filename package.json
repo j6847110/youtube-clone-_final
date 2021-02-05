@@ -4,7 +4,7 @@
   "description": "cloning youtube with Vanilla and Nodejs",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node init.js"
+    "start": "nodemon --delay 2 --exec babel-node init.js "
   },
   "author": "PMS",
   "license": "ISC",
