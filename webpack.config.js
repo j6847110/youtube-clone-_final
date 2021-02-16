@@ -10,16 +10,15 @@ const OUTPUT_DIR = path.join(__dirname, "static");
 const config = {
   entry: ENTRY_FILE,
   mode: MODE,
-  output: {
-    path: OUTPUT_DIR,
-    filename: "[name].js",
-  },
   module: {
     rules: [
       {
         test: /\.scss$/,
         use: [
-          ExtractCSS.loader,
+          {
+            loader: ExtractCSS.loader,
+          },
+
           {
             loader: "css-loader",
           },
@@ -31,6 +30,7 @@ const config = {
                   [
                     "autoprefixer",
                     {
+                      //options
                       overrideBrowserslist: "cover 99.5%",
                     },
                   ],
@@ -45,6 +45,11 @@ const config = {
       },
     ],
   },
+  output: {
+    path: OUTPUT_DIR,
+    filename: "[name].js",
+  },
+  plugins: [new ExtractCSS({ filename: "styles.css" })],
 };
 
 module.exports = config;
