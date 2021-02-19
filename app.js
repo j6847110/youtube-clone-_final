@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 //helmet error
 app.use(function (req, res, next) {
-  res.setHeader("Content-Security-Policy", "default-src *");
+  res.setHeader("Content-Security-Policy", "default-src * 'unsafe-eval'");
   return next();
 });
 
