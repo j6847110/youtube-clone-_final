@@ -1,13 +1,18 @@
 import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
+import session from "express-session";
+import passport from "passport";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
 import routes from "./routes";
+
 import { localsMiddleware } from "./middlewares";
+
+import "./passport";
 
 const app = express();
 app.use(helmet());
@@ -26,6 +31,15 @@ app.use(function (req, res, next) {
   return next();
 });
 
+app.use(
+  session({
+    secret: process.env.COOKIE_SECRET,
+    resave: true,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(localsMiddleware);
 
 app.use(routes.home, globalRouter);
