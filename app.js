@@ -3,6 +3,8 @@ import morgan from "morgan";
 import helmet from "helmet";
 import session from "express-session";
 import passport from "passport";
+import "./passport";
+import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import userRouter from "./routers/userRouter";
@@ -12,9 +14,10 @@ import routes from "./routes";
 
 import { localsMiddleware } from "./middlewares";
 
-import "./passport";
+const MongoStore = require("connect-mongo").default;
 
 const app = express();
+
 app.use(helmet());
 app.use(helmet({ contentSecurityPolicy: false }));
 app.set("view engine", "pug");
@@ -36,6 +39,7 @@ app.use(
     secret: process.env.COOKIE_SECRET,
     resave: true,
     saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URL }),
   })
 );
 app.use(passport.initialize());
